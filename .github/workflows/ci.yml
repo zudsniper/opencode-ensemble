@@ -32,7 +32,7 @@ jobs:
         run: bun test
 
       - name: Build
-        run: bun run build
+        run: bun run bundle
 
   # Bun CI exercises bun:sqlite; this job exercises the node:sqlite adapter
   # branch used by Node/Electron hosts (desktop). Runs the real db layer under
