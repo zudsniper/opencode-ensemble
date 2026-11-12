@@ -22,6 +22,7 @@ import { startDashboard, type DashboardServer } from "./dashboard"
 import { EnsembleRpc, emitMemberEvent, emitNoticeEvent } from "./v2-rpc"
 import { isWorktreeInstance } from "./util"
 import { vlog } from "./log"
+import { registerBundledSkill, type SkillDomainLike } from "./skill"
 
 /** V2 setup context subset (structural, mock-friendly). */
 export interface V2SetupContext {
@@ -49,6 +50,8 @@ export interface V2SetupContext {
   shell: {
     hook(name: string, cb: (event: never) => unknown): Promise<{ dispose(): Promise<void> }>
   }
+  /** Skill registry; absent on hosts that predate plugin skills. */
+  skill?: SkillDomainLike
 }
 
 /** Extract answer text from a V2 tool result for approval matching. */
@@ -338,6 +341,11 @@ export async function setupEnsemble(
     progressTracker,
   }
   await registerV2Tools(ctx.tool, deps)
+
+  // Ship the lead-coordination skill with the plugin so the model is told
+  // when and how to use team tools without a separate `npx skills add`.
+  const skillRegistered = await registerBundledSkill(ctx.skill)
+  vlog(`init:skill registered=${skillRegistered}`)
 
   // Dashboard mirrors V1: main instance only, skipped when port is 0.
   let dashboard: DashboardServer | null = null

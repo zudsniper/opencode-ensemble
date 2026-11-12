@@ -27,6 +27,7 @@
   "files": [
     "dist",
     "src",
+    "skills",
     "LICENSE",
     "README.md",
     "social-preview.png"

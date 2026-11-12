@@ -124,7 +124,9 @@ The lead runs the repository verification commands, summarizes the result, and o
 
 ## Agent Skill
 
-Install the companion skill to teach your AI how to form useful Ensemble teams, write better teammate prompts, choose models, and avoid common coordination failures:
+The plugin ships a companion skill that teaches your AI how to form useful Ensemble teams, write better teammate prompts, choose models, and avoid common coordination failures. **It registers automatically when the plugin loads** — no install step. On OpenCode v2 it is added through the plugin skill API; on v1 the plugin adds its bundled `skills/` directory to `skills.paths`. A skill named `opencode-ensemble` that you installed yourself takes precedence.
+
+To use the same skill in another agent (Claude Code, Cursor, etc.), install it with the skills CLI (requires Node ≥ 22.20):
 
 ```bash
 npx skills@latest add hueyexe/opencode-ensemble --skill opencode-ensemble

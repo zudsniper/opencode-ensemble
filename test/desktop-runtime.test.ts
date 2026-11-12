@@ -64,8 +64,8 @@ describe("Desktop runtime compatibility", () => {
   test("package build targets the Node-compatible runtime", async () => {
     const pkg = await Bun.file("package.json").json() as { scripts?: Record<string, string> }
 
-    expect(pkg.scripts?.build).toContain("--target node")
-    expect(pkg.scripts?.build).not.toContain("--target bun")
+    expect(pkg.scripts?.bundle).toContain("--target node")
+    expect(pkg.scripts?.bundle).not.toContain("--target bun")
   })
 
   test("full plugin bundle imports under Node's ESM loader", async () => {

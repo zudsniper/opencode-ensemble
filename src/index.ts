@@ -18,6 +18,7 @@ import { buildLeadSystemPrompt, buildTeammateSystemPrompt, buildTeamCompactionCo
 import { log, initLog } from "./log"
 import { findTeamBySession } from "./types"
 import { loadConfig } from "./config"
+import { addSkillPathToConfig, type SkillConfigLike } from "./skill"
 import { ProgressTracker } from "./progress"
 import { ActivityBuffer, recordFromV2Event, recordFromToolBefore, recordFromToolAfter } from "./activity"
 import { startDashboard } from "./dashboard"
@@ -376,6 +377,13 @@ const plugin: Plugin = async (input) => {
       }
       // Record tool result activity for team member sessions
       recordFromToolAfter(input, output, registry, activityBuffer)
+    },
+
+    // Ship the lead-coordination skill with the plugin: point the host's skill
+    // discovery at the bundled skills/ directory. The V1 SDK Config type
+    // predates `skills.paths`, hence the structural cast.
+    config: async (hostConfig) => {
+      addSkillPathToConfig(hostConfig as unknown as SkillConfigLike)
     },
 
     // System prompt injection — keeps lead aware of team state, reminds teammates of role

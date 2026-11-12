@@ -135,7 +135,9 @@ member, the call is blocked. This covers sub-agents at arbitrary depth.
 
 ## Hooks
 
-Three hooks wired in index.ts:
+The `config` hook (V1) / `ctx.skill.transform` (V2) auto-registers the bundled
+`skills/opencode-ensemble` skill — see `src/skill.ts`. Beyond that, three hooks
+are wired in index.ts:
 
 - `experimental.chat.system.transform` — injects team state into the lead's
   system prompt (member statuses, task counts, anti-polling guidance). Injects
